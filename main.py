@@ -1,8 +1,16 @@
 def main():
     with open("books/frankenstein.txt") as f:
         file_contents = f.read()
-        print(word_count(file_contents))
-        print(char_count(file_contents))
+        word_count_func = word_count(file_contents)
+        count_char = char_count(file_contents)
+        converted_list = convert_list(count_char)
+        converted_list.sort(reverse=True, key=sort_on)
+        print("--- Begin report of books/frankenstein.txt ---")
+        print(f"{word_count_func} words found in the document \n")
+        for item in converted_list:
+            print(f"The '{item['letter']}' character was found {item['num']} times")
+        print("--- End report ---")
+        
 
 
 def word_count(f):
@@ -21,4 +29,15 @@ def char_count(f):
         word_dict[i] += 1
     
     return word_dict
+
+def convert_list(word_dict):
+    list_of_dicts = []
+    for key, value in word_dict.items():
+        if key.isalpha():
+            list_of_dicts.append({'letter': key, 'num': value})    
+    return list_of_dicts
+
+def sort_on(list_of_dicts):
+    return list_of_dicts['num']
+
 main()
